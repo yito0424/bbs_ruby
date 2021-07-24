@@ -14,6 +14,8 @@
 #
 
 class User < ApplicationRecord
+    has_many :boards, dependent: :delete_all
+    has_many :comments, dependent: :delete_all
     # password属性とpassword_confirmation属性の追加
     # passwordとpasswrod_confirmationの値が一致しているかをvalidationでチェックしてくれる
     has_secure_password

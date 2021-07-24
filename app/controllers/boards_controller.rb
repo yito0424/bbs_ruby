@@ -28,6 +28,9 @@ class BoardsController < ApplicationController
 
   def show
     @comment = Comment.new(board_id: @board.id)
+    if @current_user
+      @comment.user_id = @current_user.id
+    end
   end
 
 

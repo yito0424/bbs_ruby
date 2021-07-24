@@ -15,7 +15,9 @@
 
 <div class="p-comment__list">
   <div class="p-comment_listTitle">コメント</div>
-  <%= render @board.comments %>
+  <%= render @board.comments, current_user: @current_user %>
 </div>
 
-<%= render partial: 'comments/form', locals: { comment: @comment } %>
+<% if @current_user %>
+  <%= render partial: 'comments/form', locals: { comment: @comment, current_user: @current_user } %>
+<% end %>

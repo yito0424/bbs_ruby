@@ -6,8 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 if Rails.env == 'development'
+  user = User.create(name: 'test', password: 'testpass', password_confirmation: 'testpass')
+
   (1..50).each do |i|
-    Board.create(name: "ユーザー#{i}", title: "タイトル#{i}", body: "本文#{i}")
+    Board.create(user_id: user.id, title: "タイトル#{i}", body: "本文#{i}")
   end
 
   Tag.create([
