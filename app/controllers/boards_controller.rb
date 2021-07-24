@@ -6,7 +6,12 @@ class BoardsController < ApplicationController
     @boards = @boards.page(params[:page])
   end
   def new
-    @board = Board.new(flash[:board])
+    if @current_user
+      @board = Board.new(flash[:board])
+      @board[:user_id] = @current_user[:id]
+    else
+      redirect_to root_path
+    end
   end
   def create
     board = Board.new(board_params)
@@ -27,6 +32,14 @@ class BoardsController < ApplicationController
 
 
   def edit
+    if @current_user
+      unless @board && @board.user_id == @current_user.id
+        redirect_to boards_path
+      end
+    else
+      redirect_to root_path
+    end
+
   end
 
   def update
@@ -49,7 +62,7 @@ class BoardsController < ApplicationController
   private
 
   def board_params
-    params.require(:board).permit(:name, :title, :body, tag_ids: [])
+    params.require(:board).permit(:user_id, :title, :body, tag_ids: [])
   end
 
   def set_target_board
